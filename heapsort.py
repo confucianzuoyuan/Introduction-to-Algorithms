@@ -1,8 +1,7 @@
-class Heap(object):
-	def __init__(self, length, heap_size):
-		self.A = [0] * (length+1)
-		self.length = length
-		self.heap_size = heap_size
+class Heap(list):
+	def __init__(self):
+		list.__init__([])
+		self.heap_size = 0
 
 def parent(i):
 	return i/2
@@ -16,23 +15,30 @@ def right(i):
 def max_heapify(H, i):
 	l = left(i)
 	r = right(i)
-	if l <= H.heap_size and H.A[l] > H.A[i]:
+	if l <= H.heap_size and H[l] > H[i]:
 		largest = l
 	else:
 		largest = i
-	if r <= H.heap_size and H.A[r] > H.A[largest]:
+	if r <= H.heap_size and H[r] > H[largest]:
 		largest = r
 	if largest != i:
-		H.A[i], H.A[largest] = H.A[largest], H.A[i]
+		H[i], H[largest] = H[largest], H[i]
 		max_heapify(H, largest)
 
 def build_max_heap(H):
-	H.heap_size = H.length
-	for i in range(H.length/2,0,-1):
+	H.heap_size = len(H) - 1
+	for i in range(len(H)/2,0,-1):
 		max_heapify(H, i)
 
+def heapsort(H):
+	build_max_heap(H)
+	for i in range(len(H)-1, 1, -1):
+		H[1], H[i] = H[i], H[1]
+		H.heap_size -= 1
+		max_heapify(H,1)
+
 if __name__ == "__main__":
-	H = Heap(10,10)
-	H.A = [0,16,4,10,14,7,9,3,2,8,1]
-	max_heapify(H, 2)
-	print H.A
+	H = Heap()
+	H += [0,9,8,7,6,5,4,3,2,1]
+	heapsort(H)
+	print H
