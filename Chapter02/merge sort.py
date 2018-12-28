@@ -26,7 +26,7 @@ class mergesort():
         R[n2] = sys.maxint
 
         i = 0; j = 0
-        for k in range(p, r):
+        for k in range(p, r+1):
             if L[i] <= R[j]:
                 A[k] = L[i]
                 i += 1
